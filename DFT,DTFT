@@ -1,0 +1,34 @@
+function[Xk,Xn]=dft(xn,N)%计算N点的DFT(Xk),逆DFT(Xn)
+  n=[0:1:N-1];
+  k=[0:1:N-1];
+  WN=exp(-j*2*pi/N);
+  nk=n'*k;
+  WNnk1=WN.^(nk);
+  WNnk1=WN.^(-nk);
+  Xk=xn*WNnk1; %DFT
+  Xn=xn*WNnk2; %逆DFT
+end
+
+
+x=ones(1,6);
+n=0:5;
+%计算DTFT和画图
+k=-200:200;
+w=(pi/100)*k;
+X=x*(exp(-j*pi/100)).^(n'*k);
+magX=abs(X);angX=angle(X)*180/pi;
+figure(1)
+subplot(2,2,1); plot(w/pi,magX);
+axis([-1 1 -200 200]);grid;
+title('DTFT的相位')；
+% 计算DTFT和画图
+N=6；
+X=dft(x,N);
+magX=abs(X);
+phaX=angle(X)*180/pi;
+k=0:5;
+figure(2)
+subplot(2,1,1);stem(k,magX)；
+title('DTFT的幅度')；xlabel('k');
+subplot(2,1,2);stem(k,phaX);
+title('DTFT的相位');xlabel('k')
